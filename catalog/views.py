@@ -1,22 +1,13 @@
-from django.urls import reverse_lazy
+
+
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 
-from catalog.forms import TagsForm
+from catalog.forms import TagsForm, TasksForm
 from catalog.models import Tag, Task
-
-
-def index(request: HttpRequest) -> HttpResponse:
-    num_tags = Tag.objects.count()
-    num_tasks = Task.objects.count()
-
-    context = {
-        "num_tags": num_tags,
-        "num_tasks": num_tasks,
-    }
-    return render(request, "catalog/index.html", context=context)
 
 
 class TagsListView(ListView):
@@ -42,3 +33,38 @@ class TagsDeleteView(DeleteView):
     model = Tag
     success_url = reverse_lazy("catalog:tags-list")
     template_name = "catalog/tags_form_confirm_delete.html"
+
+
+class TaskListView(ListView):
+    model = Task
+    template_name = "catalog/tasks_list.html"
+
+    def get_queryset(self):
+        return Task.objects.all().order_by('boolean_field', '-datetime')
+
+
+class TaskCreateView(CreateView):
+    model = Task
+    form_class = TasksForm
+    success_url = reverse_lazy("catalog:task-list")
+    template_name = 'catalog/task_form.html'
+
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    form_class = TasksForm
+    success_url = reverse_lazy("catalog:task-list")
+    template_name = 'catalog/task_form.html'
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    success_url = reverse_lazy("catalog:task-list")
+    template_name = 'catalog/task_confirm_delete.html'
+
+
+def toggle_task_status(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.boolean_field = not task.boolean_field
+    task.save()
+    return HttpResponseRedirect(reverse('catalog:task-list'))
