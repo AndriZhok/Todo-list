@@ -22,8 +22,6 @@ urlpatterns = [
     path("task/update/<int:pk>/", TaskUpdateView.as_view(), name="task-update"),
     path("task/delete/<int:pk>/", TaskDeleteView.as_view(), name="task-delete"),
     path('tasks/toggle-status/<int:pk>/', toggle_task_status, name='task-toggle-status'),
-
-
 ]
 
 app_name = "catalog"

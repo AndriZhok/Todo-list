@@ -1,5 +1,3 @@
-
-
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -38,9 +36,6 @@ class TagsDeleteView(DeleteView):
 class TaskListView(ListView):
     model = Task
     template_name = "catalog/tasks_list.html"
-
-    def get_queryset(self):
-        return Task.objects.all().order_by('boolean_field', '-datetime')
 
 
 class TaskCreateView(CreateView):
