@@ -12,17 +12,19 @@ class TagsForm(forms.ModelForm):
 class TasksForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['content', 'datetime', 'optional_deadline', 'tags']
+        fields = ["content", "datetime", "optional_deadline", "tags"]
         widgets = {
-            'datetime': forms.DateTimeInput(attrs={
-                'class': 'form-control datetimepicker',
-                'placeholder': 'Select date and time'
-            }),
-            'optional_deadline': forms.DateTimeInput(attrs={
-                'class': 'form-control datetimepicker',
-                'placeholder': 'Select optional deadline'
-            }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-control'
-            }),
+            "datetime": forms.DateTimeInput(
+                attrs={
+                    "class": "form-control datetimepicker",
+                    "placeholder": "Select date and time",
+                }
+            ),
+            "optional_deadline": forms.DateTimeInput(
+                attrs={
+                    "class": "form-control datetimepicker",
+                    "placeholder": "Select optional deadline",
+                }
+            ),
+            "tags": forms.SelectMultiple(attrs={"class": "form-control"}),
         }

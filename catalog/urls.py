@@ -9,7 +9,7 @@ from catalog.views import (
     TaskCreateView,
     TaskUpdateView,
     TaskDeleteView,
-    toggle_task_status
+    toggle_task_status,
 )
 
 urlpatterns = [
@@ -21,7 +21,9 @@ urlpatterns = [
     path("task/create/", TaskCreateView.as_view(), name="task-create"),
     path("task/update/<int:pk>/", TaskUpdateView.as_view(), name="task-update"),
     path("task/delete/<int:pk>/", TaskDeleteView.as_view(), name="task-delete"),
-    path('tasks/toggle-status/<int:pk>/', toggle_task_status, name='task-toggle-status'),
+    path(
+        "tasks/toggle-status/<int:pk>/", toggle_task_status, name="task-toggle-status"
+    ),
 ]
 
 app_name = "catalog"

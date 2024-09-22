@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "catalog",
     "crispy_forms",
     "crispy_bootstrap4",
-    "widget_tweaks"
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
@@ -130,4 +130,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-

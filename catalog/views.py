@@ -42,24 +42,24 @@ class TaskCreateView(CreateView):
     model = Task
     form_class = TasksForm
     success_url = reverse_lazy("catalog:task-list")
-    template_name = 'catalog/task_form.html'
+    template_name = "catalog/task_form.html"
 
 
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = TasksForm
     success_url = reverse_lazy("catalog:task-list")
-    template_name = 'catalog/task_form.html'
+    template_name = "catalog/task_form.html"
 
 
 class TaskDeleteView(DeleteView):
     model = Task
     success_url = reverse_lazy("catalog:task-list")
-    template_name = 'catalog/task_confirm_delete.html'
+    template_name = "catalog/task_confirm_delete.html"
 
 
 def toggle_task_status(request, pk):
     task = get_object_or_404(Task, pk=pk)
-    task.boolean_field = not task.boolean_field
+    task.if_field = not task.if_field
     task.save()
-    return HttpResponseRedirect(reverse('catalog:task-list'))
+    return HttpResponseRedirect(reverse("catalog:task-list"))

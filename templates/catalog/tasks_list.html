@@ -19,7 +19,7 @@
                 Deadline: {{ task.optional_deadline|date:"F j, Y, g:i a" }}<br>
               {% endif %}
               Status: 
-              {% if task.boolean_field %}
+              {% if task.if_field %}
                 <span class="text-success">Done</span>
               {% else %}
                 <span class="text-danger">Not done</span>
@@ -35,7 +35,7 @@
               <a href="{% url 'catalog:task-update' pk=task.id %}" class="btn btn-warning mr-2">Update</a>
               <a href="{% url 'catalog:task-delete' pk=task.id %}" class="btn btn-danger mr-2">Delete</a>
 
-              {% if task.boolean_field %}
+              {% if task.if_field %}
                 <form action="{% url 'catalog:task-toggle-status' pk=task.id %}" method="post" class="ml-auto">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-secondary">Undo</button>
