@@ -1,6 +1,5 @@
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
@@ -8,58 +7,55 @@ from catalog.forms import TagsForm, TasksForm
 from catalog.models import Tag, Task
 
 
-class TagsListView(ListView):
+class TagViewBase(View):
     model = Tag
+    success_url = reverse_lazy("catalog:tags-list")
+
+
+class TagsListView(TagViewBase, ListView):
     template_name = "catalog/tags_list.html"
 
 
-class TagsCreateView(CreateView):
-    model = Tag
+class TagsCreateView(TagViewBase, CreateView):
     form_class = TagsForm
-    success_url = reverse_lazy("catalog:tags-list")
     template_name = "catalog/tags_form.html"
 
 
-class TagsUpdateView(UpdateView):
-    model = Tag
+class TagsUpdateView(TagViewBase, UpdateView):
     form_class = TagsForm
-    success_url = reverse_lazy("catalog:tags-list")
     template_name = "catalog/tags_form.html"
 
 
-class TagsDeleteView(DeleteView):
-    model = Tag
-    success_url = reverse_lazy("catalog:tags-list")
+class TagsDeleteView(TagViewBase, DeleteView):
     template_name = "catalog/tags_form_confirm_delete.html"
 
 
-class TaskListView(ListView):
+class TaskViewBase(View):
     model = Task
+    success_url = reverse_lazy("catalog:task-list")
+
+
+class TaskListView(TaskViewBase, ListView):
     template_name = "catalog/tasks_list.html"
 
 
-class TaskCreateView(CreateView):
-    model = Task
+class TaskCreateView(TaskViewBase, CreateView):
     form_class = TasksForm
-    success_url = reverse_lazy("catalog:task-list")
     template_name = "catalog/task_form.html"
 
 
-class TaskUpdateView(UpdateView):
-    model = Task
+class TaskUpdateView(TaskViewBase, UpdateView):
     form_class = TasksForm
-    success_url = reverse_lazy("catalog:task-list")
     template_name = "catalog/task_form.html"
 
 
-class TaskDeleteView(DeleteView):
-    model = Task
-    success_url = reverse_lazy("catalog:task-list")
+class TaskDeleteView(TaskViewBase, DeleteView):
     template_name = "catalog/task_confirm_delete.html"
 
 
-def toggle_task_status(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    task.if_field = not task.if_field
-    task.save()
-    return HttpResponseRedirect(reverse("catalog:task-list"))
+class ToggleTaskStatusView(View):
+    def post(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        task.if_field = not task.if_field
+        task.save()
+        return HttpResponseRedirect(reverse("catalog:task-list"))
