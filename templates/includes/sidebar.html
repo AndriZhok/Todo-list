@@ -1,9 +1,12 @@
 <ul class="sidebar-nav list-group">
 
   <li class="list-group-item">
-    <a href="{% url 'catalog:task-list' %}">Home page</a>
+    <a href="{% url 'catalog:task-overview' %}">Головна сторінка</a>
   </li>
   <li class="list-group-item">
-    <a href="{% url "catalog:tags-list" %}">All tags</a>
+    <a href="{% url 'catalog:tags-list' %}">Усі теги</a>
   </li>
-</ul>   
+  <li class="list-group-item">
+    <a href="{% url 'catalog:task-list' %}">Усі завдання</a>
+  </li>
+</ul>

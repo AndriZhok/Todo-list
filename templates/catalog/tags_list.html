@@ -4,8 +4,8 @@
 {% block content %}
   <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1>Tags</h1>
-      <a href="{% url 'catalog:tags-create' %}" class="btn btn-primary">Create</a>
+      <h1>Теги</h1>
+      <a href="{% url 'catalog:tags-create' %}" class="btn btn-primary">Створити</a>
     </div>
 
     {% if tag_list %}
@@ -13,8 +13,8 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
+            <th>Назва</th>
+            <th>Дії</th>
           </tr>
         </thead>
         <tbody>
@@ -23,15 +23,15 @@
               <td>{{ tags.id }}</td>
               <td>{{ tags.name }}</td>
               <td>
-                <a href="{% url 'catalog:tags-update' pk=tags.id %}" class="btn btn-warning btn-sm mr-2">Update</a>
-                <a href="{% url 'catalog:tags-delete' pk=tags.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'catalog:tags-update' pk=tags.id %}" class="btn btn-warning btn-sm mr-2">Оновити</a>
+                <a href="{% url 'catalog:tags-delete' pk=tags.id %}" class="btn btn-danger btn-sm">Видалити</a>
               </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <p>There are no tags.</p>
+      <p>Теги відсутні.</p>
     {% endif %}
   </div>
 {% endblock %}
