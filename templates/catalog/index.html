@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Органайзер</h1>
+  </div>
+</div>
+
+<hr class="my-5">
+
+<div class="p-4 bg-light rounded shadow-sm">
+  <h2 class="text-primary"><i class="bi bi-graph-up-arrow"></i> Огляд завдань</h2>
+
+  <!-- Форма для пошуку за тегом -->
+  <form id="tag-search-form" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="tag" class="form-control" placeholder="Введіть тег для пошуку" aria-label="Search tag" required>
+      <button class="btn btn-primary" type="submit">Пошук</button>
+    </div>
+  </form>
+
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <p><strong>Виконано:</strong> {{ summary.completed }}</p>
+      <p><strong>Не виконано:</strong> {{ summary.not_completed }}</p>
+    </div>
+    <div class="col-md-6">
+      <h4>Завдання з тегами</h4>
+      <p>Завдань з вказаним тегом: <strong id="tagged-count">{{ tagged_count }}</strong></p>
+    </div>
+    <div class="col-md-6">
+      <h4>Прогрес</h4>
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar"
+             style="width: {{ progress }}%;" aria-valuenow="{{ progress }}"
+             aria-valuemin="0" aria-valuemax="100">
+          {{ progress }}%
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('tag-search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const tag = formData.get('tag');
+
+    fetch("{% url 'catalog:task-search' %}?tag=" + encodeURIComponent(tag))
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('tagged-count').textContent = data.tagged_count;
+      })
+      .catch(error => console.error('Error:', error));
+  });
+</script>
+{% endblock %}

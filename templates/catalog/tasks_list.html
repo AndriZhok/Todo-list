@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Список завдань</h1>
+    <a href="{% url 'catalog:task-create' %}" class="btn btn-primary">Додати завдання</a>
+  </div>
+
+  {% if task_list %}
+  {% for task in task_list %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ task.content }}</h5>
+      <p class="card-text">
+        Створено: {{ task.datetime|date:"j F Y, g:i a" }}<br>
+        {% if task.optional_deadline %}
+        Дедлайн: {{ task.optional_deadline|date:"j F Y, g:i a" }}<br>
+        {% endif %}
+        Статус:
+        {% if task.if_field %}
+        <span class="text-success">Виконано</span>
+        {% else %}
+        <span class="text-danger">Не виконано</span>
+        {% endif %}
+      </p>
+      <p>Теги:
+        {% for tag in task.tags.all %}
+        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
+
+      <div class="d-flex">
+        <a href="{% url 'catalog:task-update' pk=task.id %}" class="btn btn-warning mr-2">Оновити</a>
+        <a href="{% url 'catalog:task-delete' pk=task.id %}" class="btn btn-danger mr-2">Видалити</a>
+
+        {% if task.if_field %}
+        <form action="{% url 'catalog:task-toggle-status' pk=task.id %}" method="post" class="ml-auto">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-secondary">Скасувати</button>
+        </form>
+        {% else %}
+        <form action="{% url 'catalog:task-toggle-status' pk=task.id %}" method="post" class="ml-auto">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Виконати</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>Немає доступних завдань.</p>
+  {% endif %}
+</div>
+{% endblock %}
