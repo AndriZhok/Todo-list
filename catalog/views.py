@@ -3,7 +3,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, V
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from task_lib_wrapper import get_task_summary, count_tasks_with_tag, calculate_progress
-
 from catalog.forms import TagsForm, TasksForm
 from catalog.models import Tag, Task
 
